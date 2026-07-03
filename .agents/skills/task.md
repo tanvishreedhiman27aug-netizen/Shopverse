@@ -1,0 +1,43 @@
+# Project Tasks: Myntra-inspired E-Commerce Platform
+
+- `[x]` Backend Setup & Configuration
+  - `[x]` Initialize project, install Node/Express dependencies
+  - `[x]` Connect MongoDB and configure models (User, Product, Order, Category, Review)
+  - `[x]` Setup JWT authentication & Google OAuth structures (passport or simple OAuth flow)
+  - `[x]` Build core utility helpers (Stripe mock, Cloudinary mock, AI recommendation/outfit engine)
+- `[x]` Backend API Implementation
+  - `[x]` Authentication endpoints (signup, login, forgot password, google-login)
+  - `[x]` Product & Category API endpoints (filtering, paging, details, review aggregation)
+  - `[x]` Cart & Wishlist API endpoints
+  - `[x]` Order creation & Stripe Payment confirmation endpoints
+  - `[x]` Admin dashboard analytics & management endpoints
+  - `[x]` Seed database script (realistic Myntra-style fashion products)
+- `[x]` Frontend Setup & Redux Integration
+  - `[x]` Initialize React+Vite app, install Tailwind CSS & Framer Motion
+  - `[x]` Configure Redux Toolkit (auth, products, cart, wishlist, orders slices)
+  - `[x]` Setup routing (React Router DOM) for public, protected (checkout/profile), and admin routes
+- `[x]` Frontend Core Layout & Navigation
+  - `[x]` Pixel-perfect Myntra Navigation bar (real-time search, category dropdowns, wishlist/cart counters)
+  - `[x]` Responsive footer & bottom navigation bar for mobile
+  - `[x]` Theme Context (Light / Dark mode toggle)
+- `[x]` Catalog & Product Exploration
+  - `[x]` Home page with Hero Carousel, Deals of the Day, Trending, Categories, and New Arrivals
+  - `[x]` Catalog search & filtering page (brand, category, gender, sizes, colors, price, sorting)
+  - `[x]` Infinite scrolling & Skeleton loading states for catalog products
+  - `[x]` Voice Search integration in Navbar
+- `[x]` Product Details & Interactive Actions
+  - `[x]` Interactive Product Details page (multiple images, Zoom on hover, size/color selection)
+  - `[x]` Customer reviews & ratings section
+  - `[x]` AI Outfit suggestion panel (Mix & Match) and Similar Products carousel
+- `[x]` Cart, Wishlist & Checkout Flow
+  - `[x]` Wishlist page (add, remove, move to cart)
+  - `[x]` Cart page (update quantity, remove, pricing breakdown, promo/coupon codes)
+  - `[x]` Multi-step checkout page (address management, order summary, online payment/COD options)
+  - `[x]` Order success confirmation page with interactive tracking history
+- `[x]` User Profile & Admin Dashboard
+  - `[x]` User profile page (edit profile, saved addresses, order history, track order, return requests)
+  - `[x]` Admin dashboard page (Recharts analytics, product CRUD, inventory, order status updates, user management)
+- `[ ]` Final Polish & Verification
+  - `[ ]` Verify responsiveness across Mobile, Tablet, and Desktop
+  - `[ ]` Verify payment processing and orders tracking
+  - `[x]` Create `walkthrough.md` artifact

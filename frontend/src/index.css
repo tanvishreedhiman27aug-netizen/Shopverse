@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-myntra-dark bg-white font-sans antialiased transition-colors duration-200;
+  }
+  body.dark {
+    @apply text-gray-100 bg-[#0f111a];
+  }
+}
+
+/* Custom scrollbar to match Myntra premium feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff3f6c;
+}
+
+/* Custom Utilities for smooth animations */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.zoom-container {
+  overflow: hidden;
+}
+.zoom-image {
+  transition: transform 0.5s ease;
+}
+.zoom-container:hover .zoom-image {
+  transform: scale(1.15);
+}
