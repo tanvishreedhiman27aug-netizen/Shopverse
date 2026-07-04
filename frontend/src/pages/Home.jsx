@@ -121,9 +121,13 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {loading && deals.length === 0
-              ? Array(4).fill(0).map((_, i) => <SkeletonCard key={i} />)
-              : deals.slice(0, 4).map((product) => <ProductCard key={product._id} product={product} />)}
+            {deals && deals.length > 0 ? (
+              deals.slice(0, 4).map((product) => <ProductCard key={product._id} product={product} />)
+            ) : loading ? (
+              Array(4).fill(0).map((_, i) => <SkeletonCard key={i} />)
+            ) : (
+              <div className="col-span-full text-center text-xs text-myntra-gray py-8">No deals available today</div>
+            )}
           </div>
         </section>
 
@@ -138,9 +142,15 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {recommendedProducts.slice(0, 4).map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
+            {recommendedProducts && recommendedProducts.length > 0 ? (
+              recommendedProducts.slice(0, 4).map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))
+            ) : loading ? (
+              Array(4).fill(0).map((_, i) => <SkeletonCard key={i} />)
+            ) : (
+              <div className="col-span-full text-center text-xs text-myntra-gray py-8">No personalized picks available</div>
+            )}
           </div>
         </section>
 
@@ -152,9 +162,13 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {loading && trending.length === 0
-              ? Array(8).fill(0).map((_, i) => <SkeletonCard key={i} />)
-              : trending.map((product) => <ProductCard key={product._id} product={product} />)}
+            {trending && trending.length > 0 ? (
+              trending.map((product) => <ProductCard key={product._id} product={product} />)
+            ) : loading ? (
+              Array(8).fill(0).map((_, i) => <SkeletonCard key={i} />)
+            ) : (
+              <div className="col-span-full text-center text-xs text-myntra-gray py-8">No trending products available</div>
+            )}
           </div>
         </section>
 
@@ -187,9 +201,13 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {loading && newArrivals.length === 0
-              ? Array(4).fill(0).map((_, i) => <SkeletonCard key={i} />)
-              : newArrivals.slice(0, 4).map((product) => <ProductCard key={product._id} product={product} />)}
+            {newArrivals && newArrivals.length > 0 ? (
+              newArrivals.slice(0, 4).map((product) => <ProductCard key={product._id} product={product} />)
+            ) : loading ? (
+              Array(4).fill(0).map((_, i) => <SkeletonCard key={i} />)
+            ) : (
+              <div className="col-span-full text-center text-xs text-myntra-gray py-8">No new arrivals available</div>
+            )}
           </div>
         </section>
       </div>

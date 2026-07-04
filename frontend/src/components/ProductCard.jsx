@@ -11,7 +11,11 @@ const ProductCard = ({ product }) => {
   const { user } = useSelector((state) => state.auth);
   const { items: wishlistItems } = useSelector((state) => state.wishlist);
 
-  const isWishlisted = wishlistItems.some((item) => item._id === product._id);
+  if (!product) return null;
+
+  const isWishlisted = wishlistItems && Array.isArray(wishlistItems)
+    ? wishlistItems.some((item) => item && item._id === product._id)
+    : false;
 
   const handleWishlistClick = (e) => {
     e.preventDefault();
@@ -23,8 +27,8 @@ const ProductCard = ({ product }) => {
     dispatch(toggleWishlist(product._id));
   };
 
-  const discountAmount = Math.round((product.price * (product.discountPercentage || 0)) / 100);
-  const finalPrice = Math.round(product.price - discountAmount);
+  const discountAmount = Math.round(((product.price || 0) * (product.discountPercentage || 0)) / 100);
+  const finalPrice = Math.round((product.price || 0) - discountAmount);
 
   return (
     <div className="group relative bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800/60 rounded overflow-hidden shadow-myntra hover:shadow-myntra-hover hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
@@ -32,7 +36,7 @@ const ProductCard = ({ product }) => {
       {/* Product Image & Badges */}
       <Link to={`/product/${product._id}`} className="block relative aspect-[3/4] overflow-hidden bg-gray-50 dark:bg-gray-950">
         <img
-          src={product.images[0]}
+          src={product.images && product.images.length > 0 ? product.images[0] : 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=500&q=80'}
           alt={product.title}
           className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
           loading="lazy"
@@ -41,7 +45,7 @@ const ProductCard = ({ product }) => {
         {/* Rating Badge */}
         {product.ratings > 0 && (
           <div className="absolute left-2.5 bottom-2.5 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] font-bold text-myntra-dark dark:text-gray-100 flex items-center gap-0.5 border border-gray-100/50 dark:border-gray-800/50 shadow-sm z-10">
-            <span>{product.ratings.toFixed(1)}</span>
+            <span>{typeof product.ratings === 'number' ? product.ratings.toFixed(1) : (Number(product.ratings) || 0).toFixed(1)}</span>
             <span className="text-yellow-500">★</span>
             <span className="text-myntra-gray dark:text-gray-400 font-normal border-l border-gray-200 dark:border-gray-700 pl-1 ml-0.5">
               {product.numReviews}
