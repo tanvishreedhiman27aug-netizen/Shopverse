@@ -7,7 +7,7 @@ import {
 import { fetchAddresses, addAddress } from '../redux/slices/authSlice.js';
 import { createOrder, resetOrderFlags } from '../redux/slices/orderSlice.js';
 import { clearCart } from '../redux/slices/cartSlice.js';
-import axios from 'axios';
+import api from '../api';
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -141,7 +141,7 @@ const Checkout = () => {
         // Request secret from backend
         const token = localStorage.getItem('token');
         const config = { headers: { Authorization: `Bearer ${token}` } };
-        const response = await axios.post('http://localhost:5000/api/orders/stripe-intent', { amount: totalPrice }, config);
+        const response = await api.post('/orders/stripe-intent', { amount: totalPrice }, config);
         
         // Simulating network delay of Stripe confirmation
         setTimeout(async () => {
@@ -150,7 +150,7 @@ const Checkout = () => {
           if (createOrder.fulfilled.match(result)) {
             const newOrder = result.payload;
             // Send pay update to server
-            await axios.put(`http://localhost:5000/api/orders/${newOrder._id}/pay`, {
+            await api.put(`/orders/${newOrder._id}/pay`, {
               id: response.data.clientSecret,
               status: 'succeeded',
               update_time: new Date().toISOString(),

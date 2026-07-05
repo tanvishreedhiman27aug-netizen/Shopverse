@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../../api';
 
-const API_URL = 'http://localhost:5000/api/products';
+const API_URL = '/products';
 
 // Async Thunks
 export const fetchProducts = createAsyncThunk(
@@ -9,7 +9,7 @@ export const fetchProducts = createAsyncThunk(
   async (queryParams = {}, { rejectWithValue }) => {
     try {
       const { keyword, gender, category, brand, size, color, priceRange, discount, rating, availability, sortBy, page, limit } = queryParams;
-      const response = await axios.get(API_URL, {
+      const response = await api.get(API_URL, {
         params: { keyword, gender, category, brand, size, color, priceRange, discount, rating, availability, sortBy, page, limit }
       });
       return response.data;
@@ -25,7 +25,7 @@ export const fetchProductById = createAsyncThunk(
     try {
       const token = localStorage.getItem('token');
       const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-      const response = await axios.get(`${API_URL}/${id}`, config);
+      const response = await api.get(`${API_URL}/${id}`, config);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -37,7 +37,7 @@ export const fetchTrendingProducts = createAsyncThunk(
   'products/fetchTrending',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/trending`);
+      const response = await api.get(`${API_URL}/trending`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -49,7 +49,7 @@ export const fetchDealsOfTheDay = createAsyncThunk(
   'products/fetchDeals',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/deals`);
+      const response = await api.get(`${API_URL}/deals`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -61,7 +61,7 @@ export const fetchNewArrivals = createAsyncThunk(
   'products/fetchNewArrivals',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/new-arrivals`);
+      const response = await api.get(`${API_URL}/new-arrivals`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -73,7 +73,7 @@ export const fetchCategories = createAsyncThunk(
   'products/fetchCategories',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/categories`);
+      const response = await api.get(`${API_URL}/categories`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -85,7 +85,7 @@ export const fetchSimilarProducts = createAsyncThunk(
   'products/fetchSimilar',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/${id}/similar`);
+      const response = await api.get(`${API_URL}/${id}/similar`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -97,7 +97,7 @@ export const fetchOutfitSuggestions = createAsyncThunk(
   'products/fetchOutfit',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/${id}/outfit`);
+      const response = await api.get(`${API_URL}/${id}/outfit`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -111,7 +111,7 @@ export const createProductReview = createAsyncThunk(
     try {
       const token = getState().auth.token;
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      const response = await axios.post(`${API_URL}/${productId}/reviews`, { rating, comment }, config);
+      const response = await api.post(`${API_URL}/${productId}/reviews`, { rating, comment }, config);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);

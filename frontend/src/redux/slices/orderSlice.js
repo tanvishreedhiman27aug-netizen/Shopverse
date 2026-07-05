@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../../api';
 
-const API_URL = 'http://localhost:5000/api/orders';
+const API_URL = '/orders';
 
 const getAuthHeader = () => {
   const token = localStorage.getItem('token');
@@ -13,7 +13,7 @@ export const createOrder = createAsyncThunk(
   'orders/create',
   async (orderData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(API_URL, orderData, getAuthHeader());
+      const response = await api.post(API_URL, orderData, getAuthHeader());
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -25,7 +25,7 @@ export const fetchOrderDetails = createAsyncThunk(
   'orders/fetchDetails',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/${id}`, getAuthHeader());
+      const response = await api.get(`${API_URL}/${id}`, getAuthHeader());
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -37,7 +37,7 @@ export const payOrder = createAsyncThunk(
   'orders/pay',
   async ({ orderId, paymentResult }, { rejectWithValue }) => {
     try {
-      const response = await axios.put(`${API_URL}/${orderId}/pay`, paymentResult, getAuthHeader());
+      const response = await api.put(`${API_URL}/${orderId}/pay`, paymentResult, getAuthHeader());
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -49,7 +49,7 @@ export const fetchMyOrders = createAsyncThunk(
   'orders/fetchMy',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/myorders`, getAuthHeader());
+      const response = await api.get(`${API_URL}/myorders`, getAuthHeader());
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -61,7 +61,7 @@ export const returnOrder = createAsyncThunk(
   'orders/return',
   async (orderId, { rejectWithValue }) => {
     try {
-      const response = await axios.put(`${API_URL}/${orderId}/return`, {}, getAuthHeader());
+      const response = await api.put(`${API_URL}/${orderId}/return`, {}, getAuthHeader());
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);

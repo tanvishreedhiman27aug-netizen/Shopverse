@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../../api';
 
-const API_URL = 'http://localhost:5000/api/auth';
+const API_URL = '/auth';
 
 // Helper to get auth header
 const getAuthHeader = (getState) => {
@@ -14,7 +14,7 @@ export const registerUser = createAsyncThunk(
   'auth/register',
   async ({ name, email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_URL}/signup`, { name, email, password });
+      const response = await api.post(`${API_URL}/signup`, { name, email, password });
       localStorage.setItem('userInfo', JSON.stringify(response.data));
       localStorage.setItem('token', response.data.token);
       return response.data;
@@ -28,7 +28,7 @@ export const loginUser = createAsyncThunk(
   'auth/login',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_URL}/login`, { email, password });
+      const response = await api.post(`${API_URL}/login`, { email, password });
       localStorage.setItem('userInfo', JSON.stringify(response.data));
       localStorage.setItem('token', response.data.token);
       return response.data;
@@ -42,7 +42,7 @@ export const googleLogin = createAsyncThunk(
   'auth/googleLogin',
   async (googlePayload, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_URL}/google`, googlePayload);
+      const response = await api.post(`${API_URL}/google`, googlePayload);
       localStorage.setItem('userInfo', JSON.stringify(response.data));
       localStorage.setItem('token', response.data.token);
       return response.data;
@@ -56,7 +56,7 @@ export const fetchProfile = createAsyncThunk(
   'auth/fetchProfile',
   async (_, { getState, rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/me`, getAuthHeader(getState));
+      const response = await api.get(`${API_URL}/me`, getAuthHeader(getState));
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -68,7 +68,7 @@ export const updateProfile = createAsyncThunk(
   'auth/updateProfile',
   async (profileData, { getState, rejectWithValue }) => {
     try {
-      const response = await axios.put(`${API_URL}/me`, profileData, getAuthHeader(getState));
+      const response = await api.put(`${API_URL}/me`, profileData, getAuthHeader(getState));
       localStorage.setItem('userInfo', JSON.stringify({ ...JSON.parse(localStorage.getItem('userInfo')), ...response.data }));
       return response.data;
     } catch (error) {
@@ -82,7 +82,7 @@ export const fetchAddresses = createAsyncThunk(
   'auth/fetchAddresses',
   async (_, { getState, rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/addresses`, getAuthHeader(getState));
+      const response = await api.get(`${API_URL}/addresses`, getAuthHeader(getState));
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -94,7 +94,7 @@ export const addAddress = createAsyncThunk(
   'auth/addAddress',
   async (addressData, { getState, rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_URL}/addresses`, addressData, getAuthHeader(getState));
+      const response = await api.post(`${API_URL}/addresses`, addressData, getAuthHeader(getState));
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -106,7 +106,7 @@ export const updateAddress = createAsyncThunk(
   'auth/updateAddress',
   async ({ addressId, addressData }, { getState, rejectWithValue }) => {
     try {
-      const response = await axios.put(`${API_URL}/addresses/${addressId}`, addressData, getAuthHeader(getState));
+      const response = await api.put(`${API_URL}/addresses/${addressId}`, addressData, getAuthHeader(getState));
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -118,7 +118,7 @@ export const deleteAddress = createAsyncThunk(
   'auth/deleteAddress',
   async (addressId, { getState, rejectWithValue }) => {
     try {
-      const response = await axios.delete(`${API_URL}/addresses/${addressId}`, getAuthHeader(getState));
+      const response = await api.delete(`${API_URL}/addresses/${addressId}`, getAuthHeader(getState));
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);

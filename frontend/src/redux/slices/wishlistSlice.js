@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../../api';
 
-const API_URL = 'http://localhost:5000/api/auth/wishlist';
+const API_URL = '/auth/wishlist';
 
 const getAuthHeader = () => {
   const token = localStorage.getItem('token');
@@ -12,7 +12,7 @@ export const fetchWishlist = createAsyncThunk(
   'wishlist/fetchAll',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(API_URL, getAuthHeader());
+      const response = await api.get(API_URL, getAuthHeader());
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -26,10 +26,10 @@ export const toggleWishlist = createAsyncThunk(
     try {
       const isInWishlist = getState().wishlist.items.some(item => item._id === productId);
       if (isInWishlist) {
-        const response = await axios.delete(`${API_URL}/${productId}`, getAuthHeader());
+        const response = await api.delete(`${API_URL}/${productId}`, getAuthHeader());
         return response.data;
       } else {
-        const response = await axios.post(API_URL, { productId }, getAuthHeader());
+        const response = await api.post(API_URL, { productId }, getAuthHeader());
         return response.data;
       }
     } catch (error) {

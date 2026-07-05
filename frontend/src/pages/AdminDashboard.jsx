@@ -7,7 +7,7 @@ import {
 import { 
   TrendingUp, ShoppingBag, ClipboardList, Users, Package, Plus, Trash2, Edit3, CheckCircle, RefreshCw, X 
 } from 'lucide-react';
-import axios from 'axios';
+import api from '../api';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const AdminDashboard = () => {
   const loadAnalytics = async () => {
     setAnalyticsLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/analytics', getAdminConfig());
+      const res = await api.get('/admin/analytics', getAdminConfig());
       setAnalytics(res.data);
     } catch (e) {
       console.error(e);
@@ -62,7 +62,7 @@ const AdminDashboard = () => {
   const loadProducts = async () => {
     setProdLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/products?limit=100');
+      const res = await api.get('/products?limit=100');
       setProducts(res.data.products);
     } catch (e) {
       console.error(e);
@@ -74,7 +74,7 @@ const AdminDashboard = () => {
   const loadOrders = async () => {
     setOrdersLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/orders', getAdminConfig());
+      const res = await api.get('/admin/orders', getAdminConfig());
       setOrders(res.data);
     } catch (e) {
       console.error(e);
@@ -104,9 +104,9 @@ const AdminDashboard = () => {
 
     try {
       if (editingProduct) {
-        await axios.put(`http://localhost:5000/api/admin/products/${editingProduct._id}`, payload, getAdminConfig());
+        await api.put(`/admin/products/${editingProduct._id}`, payload, getAdminConfig());
       } else {
-        await axios.post('http://localhost:5000/api/admin/products', payload, getAdminConfig());
+        await api.post('/admin/products', payload, getAdminConfig());
       }
       setShowProdModal(false);
       setEditingProduct(null);
@@ -138,7 +138,7 @@ const AdminDashboard = () => {
   const handleDeleteProduct = async (pid) => {
     if (window.confirm('Delete this product?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/admin/products/${pid}`, getAdminConfig());
+        await api.delete(`/admin/products/${pid}`, getAdminConfig());
         loadProducts();
       } catch (err) {
         console.error(err);
@@ -149,7 +149,7 @@ const AdminDashboard = () => {
   // Order status changes
   const handleOrderStatusUpdate = async (orderId, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/orders/${orderId}/status`, { status }, getAdminConfig());
+      await api.put(`/admin/orders/${orderId}/status`, { status }, getAdminConfig());
       loadOrders();
     } catch (err) {
       alert(err.response?.data?.message || 'Error updating order status.');

@@ -10,6 +10,7 @@ import {
 import { toggleWishlist } from '../redux/slices/wishlistSlice.js';
 import { addToCart } from '../redux/slices/cartSlice.js';
 import ProductCard from '../components/ProductCard.jsx';
+import api from '../api';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -450,8 +451,8 @@ const ProductReviewsList = ({ productId }) => {
     const loadReviews = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:5000/api/products/${productId}/reviews`).then(res => res.json());
-        setReviews(Array.isArray(response) ? response : []);
+        const response = await api.get(`/products/${productId}/reviews`);
+        setReviews(Array.isArray(response.data) ? response.data : []);
       } catch (err) {
         console.error(err);
       } finally {
